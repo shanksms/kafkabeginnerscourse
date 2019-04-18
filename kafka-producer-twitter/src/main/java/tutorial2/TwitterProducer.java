@@ -1,4 +1,4 @@
-package com.github.simplesteph.tutorial2;
+package tutorial2;
 
 
 
@@ -33,7 +33,7 @@ public class TwitterProducer {
     String token = "79546964-7owz5E90edNqkjy2U3KVzWQazSU21npzgmhkbyvMF";
     String secret = "9LDjnsJ48gaYywUcdkICTKXBuikoQw7Aoc7xOyypWb6AK";
 
-    List<String> terms = Lists.newArrayList("kafka");
+    List<String> terms = Lists.newArrayList("politics", "kafka", "bitcoin", "sports", "usa");
 
 
     public TwitterProducer(){}

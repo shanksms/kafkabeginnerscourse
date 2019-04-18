@@ -1,4 +1,4 @@
-package com.github.simplesteph.tutorial1;
+package tutorial1;
 
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -6,9 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
-public class ProducerDemo {
-    public static void main(String[] args) {
+public class ProducerDemoKeys {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         final Logger logger = LoggerFactory.getLogger(ProducerDemo.class);
         String bootStrapServer = "localhost:9092";
         Properties properties = new Properties();
@@ -16,8 +17,13 @@ public class ProducerDemo {
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         KafkaProducer<String, String> producer = new KafkaProducer<String, String>(properties);
+        String topic = "first_topic";
+
         for ( int i = 0; i < 10; i++) {
-            ProducerRecord<String, String> record = new ProducerRecord<String, String>("first_topic", "Hello World");
+            String value = "Hello " + Integer.toString(i);
+            String key = "id_" + Integer.toString(i);
+            logger.info("Key " + key);
+            ProducerRecord<String, String> record = new ProducerRecord<String, String>(topic, key, value);
             //producer.send(record);
             producer.send(record, new Callback() {
                 public void onCompletion(RecordMetadata recordMetadata, Exception e) {
@@ -35,8 +41,4 @@ public class ProducerDemo {
 
     }
 
-    /**
-     * to see the msg being produced, run following command
-     * kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic --group my_second_application
-     */
 }
